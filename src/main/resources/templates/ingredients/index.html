@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria Home</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <div th:replace="~{ fragments/navbar :: navbar }"></div>
+
+    <div>
+        <div class="container">
+            <table class="table table-striped" th:if="${ingredients.size() > 0}">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome Ingrediente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ingredient : ${ingredients}" scope="row">
+                        <td th:text="${ingredient.name}">
+                        </td>
+                        <td class="d-flex justify-content-end">
+                            <form th:action="@{|/ingredients/delete/${ingredient.id}|}" method="POST"><button
+                                    class="btn btn-danger btn-sm">Elimina
+                                    Ingrediente</button></form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:unless="${ingredients.size() > 0}" class="bg-warning-subtle p-3 my-3">
+                <h4>Non sono presenti ingredienti</h4>
+            </div>
+            <a th:href="@{/ingredients/add}"><button type="button" class="btn btn-primary">Aggiungi
+                    ingrediente</button></a>
+        </div>
+    </div>
+
+</body>
+
+</html>
