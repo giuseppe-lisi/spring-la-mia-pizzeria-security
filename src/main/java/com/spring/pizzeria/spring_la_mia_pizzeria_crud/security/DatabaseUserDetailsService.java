@@ -30,8 +30,6 @@ public class DatabaseUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("There are no users with username " + username);
         }
         
-        System.out.println("FOUND IT!!");
-        
         // se esiste, resituiamo un oggetto con i dati dell'utente leggibile da Spring Security
         return new DatabaseUserDetails(userOpt.get()); 
     }
