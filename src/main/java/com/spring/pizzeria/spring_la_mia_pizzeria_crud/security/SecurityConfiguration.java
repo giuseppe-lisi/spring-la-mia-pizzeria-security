@@ -1,4 +1,4 @@
-package com.spring.pizzeria.security;
+package com.spring.pizzeria.spring_la_mia_pizzeria_crud.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class SecurityConfiguration {
     // direttamente con il controller viene fatto un controllo preliminare su cosa può fare o meno quell'utente
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+        System.out.println("DEBUG: filter chain is active");
         // settiamo i valori dell'oggetto HTTPSecurity che definisce il comportamento
         // a seguito di determinate richieste HTTP
         http.authorizeHttpRequests(requests -> requests
@@ -28,8 +28,7 @@ public class SecurityConfiguration {
             // fare determinate richieste HTTP al server
             .requestMatchers("/user").hasAuthority("USER")
             .requestMatchers("/admin").hasAuthority("ADMIN")
-            .requestMatchers("/").permitAll()
-            .requestMatchers("/**").permitAll())
+            .requestMatchers("/", "/**").permitAll())
             // configurazione base che mostra una pagina di login quando si prova
             // ad accedere al sito
             .formLogin(Customizer.withDefaults())
@@ -42,10 +41,10 @@ public class SecurityConfiguration {
     }
 
     
-    @Bean
     // deleghiamo l'encoding delle pw al db nel nostro caso, mettendo un tag {noop}
     // all'inizio della pw. Questo lascia intendere a spring che stiamo conservando le
     // password in chiaro nel db. SOLO IN TESTING
+    @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
@@ -61,10 +60,11 @@ public class SecurityConfiguration {
     // presente nel db
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
+        System.out.println("trying to find user");
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
     
         authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider; 
+        return authProvider;
     }
     
 }

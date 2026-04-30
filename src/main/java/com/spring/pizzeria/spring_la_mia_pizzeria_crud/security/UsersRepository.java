@@ -1,4 +1,4 @@
-package com.spring.pizzeria.security;
+package com.spring.pizzeria.spring_la_mia_pizzeria_crud.security;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.spring.pizzeria.security;
+package com.spring.pizzeria.spring_la_mia_pizzeria_crud.security;
 
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Override
     // vogliamo restituire al nostro DoaAuthenticationProvider un oggetto che Spring Security
     // sia in grado di gestire: un UserDetails... ma dal db noi possiamo soltanto andare a recuperare uno User
     // servirà quindi implementare una classe DatabaseUserDetails che prende quello che ci serve dallo User
     // che abbiamo pescato dal database e lo trasformi in un oggetto che l'auth provider può leggere
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // recuperiamo il db dall'utente tramite la repo usando l'username
@@ -29,6 +29,8 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         if (userOpt.isEmpty()) {
             throw new UsernameNotFoundException("There are no users with username " + username);
         }
+        
+        System.out.println("FOUND IT!!");
         
         // se esiste, resituiamo un oggetto con i dati dell'utente leggibile da Spring Security
         return new DatabaseUserDetails(userOpt.get()); 
