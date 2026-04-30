@@ -50,6 +50,11 @@ public class SecurityConfiguration {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    DatabaseUserDetailsService userDetailsService() {
+        return new DatabaseUserDetailsService();
+    }
+
     // una volta passati i filter l'auth manager contatta il nostro auth provider
     // a cui ovviamente dobbiamo passare un service per trovare l'utente nel db
     // e il pw encoder per verificare che la pw inserita dall'utente matchi con quella
@@ -59,7 +64,7 @@ public class SecurityConfiguration {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
     
         authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+        return authProvider; 
     }
     
 }
