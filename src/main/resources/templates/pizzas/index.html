@@ -14,17 +14,19 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-6 mb-3">
+            <div class="col-auto mb-3">
                 <h3>Lista delle pizze disponibili</h3>
             </div>
-            <div class="col-3 d-flex justify-content-end">
-                <a th:href="@{/pizzas/create}"><button class="btn btn-primary">Aggiungi una pizza</button></a>
-            </div>
-            <div class="col-3">
-                <form class="input-group" method="GET" th:action="@{/pizzas}">
-                    <input type="text" class="form-control" placeholder="Cerca..." name="name">
-                    <button class="btn btn-outline-primary" type="submit" id="button-addon1">Cerca</button>
-                </form>
+            <div class="col d-flex justify-content-end">
+                <div>
+                    <form class="input-group" method="GET" th:action="@{/pizzas}">
+                        <input type="text" class="form-control" placeholder="Cerca..." name="name">
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon1">Cerca</button>
+                    </form>
+                </div>
+                <div sec:authorize="hasAuthority('ADMIN')" class="ms-3">
+                    <a th:href="@{/pizzas/create}"><button class="btn btn-primary">Aggiungi una pizza</button></a>
+                </div>
             </div>
             <div class="col-12">
                 <table class="table" th:if="${pizzas.size() > 0}">
@@ -43,11 +45,11 @@
                             <td><a class="link-underline-opacity-0 link-primary" th:href="@{'/pizzas/' + *{id}}"><button
                                         class="btn btn-primary btn-sm">Dettaglio e Offerte</button></a>
                             </td>
-                            <td><a th:href="@{'/pizzas/edit/' + *{id}}"><button
+                            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/pizzas/edit/' + *{id}}"><button
                                         class="btn btn-warning btn-sm">Modifica</button></a>
                             </td>
                             <!-- Bottone Delete -->
-                            <td>
+                            <td sec:authorize="hasAuthority('ADMIN')">
                                 <!-- Modal trigger -->
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                     th:data-bs-target="'#modal' + *{id}">
